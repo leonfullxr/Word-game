@@ -7,6 +7,7 @@
 #include <utility>
 #include <set>
 #include "dictionary.h"
+#include <cctype>
 #include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -155,11 +156,11 @@ std::istream& operator>>(std::istream &is, Dictionary &dict){
 ///////////////////////////////////////////////////////////////////////////////
 
 int Dictionary::getOccurrences(const char c){
-    return this->getOccurrences(this->words.get_root(),c);
+    return this->getOccurrences(this->words.get_root(),tolower(c));
 }
 
 int Dictionary::getTotalUsages(const char c){
-    return this->getTotalUsages(this->words.get_root(),c).first;
+    return this->getTotalUsages(this->words.get_root(),tolower(c)).first;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

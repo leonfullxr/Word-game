@@ -11,7 +11,7 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/${BASE_FOLDER}/src/cantidad_letras.cpp)
     add_executable(cantidad_letras
             ${BASE_FOLDER}/src/cantidad_letras.cpp
             ${BASE_FOLDER}/src/dictionary.cpp
-            ${BASE_FOLDER}/src/letters_set.cpp)
+            ${BASE_FOLDER}/src/letters_set.cpp estudiante/src/letters_set.cpp)
 endif()
 
 if (EXISTS ${CMAKE_SOURCE_DIR}/${BASE_FOLDER}/src/diccionario.cpp)

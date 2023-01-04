@@ -23,7 +23,7 @@ pair<vector<std::string>, int> solver::getSolutions(const vector<char> &availabl
     if (score_game)
         this->compareByPoints(soluciones.first);
     else
-        this->compareByPoints(soluciones.first);
+        this->compareByLength(soluciones.first);
 
     //Creamos ya el pair que contenga las mejores soluciones
     int maxima_puntuacion = this->letters.getScore(soluciones.first.back());
@@ -95,6 +95,5 @@ void solver::compareByLength(vector<string> &solutions) {
         swap(solutions[i], solutions[min_idx]);
     }
 }
-
 
 

@@ -7,7 +7,6 @@
 #include <vector>
 #include <cctype>
 #include "letters_set.h"
-#include "FuncionesVarias.h"
 
 LettersSet::LettersSet(){}
 
