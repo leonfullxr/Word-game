@@ -167,90 +167,170 @@ int Dictionary::getTotalUsages(const char c){
 ///////////////////////////////////////////////////////////////////////////////
 
 Dictionary::iterator::iterator() {
-    this->iter = tree<char_info>::const_preorder_iterator();
-    this->curr_word = "";
+    curr_word = "";
+    iter = tree<char_info>::const_preorder_iterator();
 }
 
 Dictionary::iterator::iterator(tree<char_info>::const_preorder_iterator iter) {
+    curr_word = "";
+    for(int i=0; i<iter.get_level(); i++) {
+        curr_word += ' ';
+    }
     this->iter = iter;
 }
 
 std::string Dictionary::iterator::operator*() {
-    return this->curr_word;
+    return  curr_word;
 }
 
 Dictionary::iterator &Dictionary::iterator::operator++() {
-    int nivel = this->iter.get_level();
-    while(!this->iter.operator*().valid_word){
-        this->iter.operator++();
-        if(this->iter.get_level() > nivel){
-            this->curr_word.push_back(this->iter.operator*().character);
-        }else if(this->iter.get_level() < nivel){
-            this->curr_word.pop_back();
-        }else{
-            this->curr_word.pop_back();
-            this->curr_word.push_back(this->iter.operator*().character);
+    do {
+        ++iter;
+
+        if (iter == tree<char_info>::const_preorder_iterator())  { // Si ha llegado al final
+            curr_word = "";
+            return *this;
         }
-    }
+
+        if(iter.get_level() > curr_word.length()) { // Si se desciende un nivel
+            // Se añade una letra a la palabra
+            curr_word += (*iter).character;
+        }
+        else if(iter.get_level() < curr_word.length()) { // Si se asciende un nivel
+            // Se elimina una letra de la palabra
+            int longitud_inicial = curr_word.length();
+            for(int i = 0; i < longitud_inicial - iter.get_level(); i++) {
+                curr_word.pop_back();
+            }
+            curr_word[iter.get_level() - 1] = (*iter).character;
+        }
+        else { // Si se queda en el mismo nivel
+            // Cambiamos la ultima letra por la nueva
+            curr_word[curr_word.length() - 1] = (*iter).character;
+        }
+
+    } while (!(*iter).valid_word);
+
+    return *this;
 }
 
 bool Dictionary::iterator::operator==(const iterator &other) {
-    return this->iter == other.iter;
+    return iter == other.iter;
 }
 
 bool Dictionary::iterator::operator!=(const iterator &other) {
-    return !(this->iter.operator==(other.iter));
+    return iter != other.iter;
 }
 
 Dictionary::iterator Dictionary::begin() const {
-    return Dictionary::iterator() = Dictionary::iterator().operator++();
+    Dictionary::iterator it(words.get_root());
+    return ++it;
 }
 
 Dictionary::iterator Dictionary::end() const {
-    return Dictionary::iterator() = tree<char_info>().cend_preorder();
+    return Dictionary::iterator();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //                            Letters Iterator                               //
 ///////////////////////////////////////////////////////////////////////////////
 
-
 Dictionary::possible_words_iterator Dictionary::possible_words_begin(vector<char> available_characters) const {
-
+    Dictionary::possible_words_iterator iter(words.get_root(), available_characters);
+    ++iter;
+    return iter;
 }
 
 Dictionary::possible_words_iterator Dictionary::possible_words_end() const {
-
+    return Dictionary::possible_words_iterator();
 }
 
 Dictionary::possible_words_iterator::possible_words_iterator() {
-
+    available_letters = multiset<char>();
+    current_node = node();
+    current_word = "";
 }
 
 Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters){
-
+    node aux = this->current_node = current_node;
+    for(const char & letter : available_letters) {
+        this->available_letters.insert(letter);
+    }
+    while(!(aux.parent().is_null())) { // Mientras no estemos en la raiz
+        current_word += (*aux).character;
+        aux = aux.parent();
+    }
 }
 
 Dictionary::possible_words_iterator::possible_words_iterator(const possible_words_iterator &other){
-
+    *this = other;
 }
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator=(const Dictionary::possible_words_iterator &other) {
-
+    current_node = node(other.current_node);
+    available_letters = other.available_letters;
+    current_word = other.current_word;
+    return *this;
 }
 
 bool Dictionary::possible_words_iterator::operator==(const Dictionary::possible_words_iterator &other) const {
-
+    return current_node == other.current_node && available_letters == other.available_letters;
 }
 
 bool Dictionary::possible_words_iterator::operator!=(const Dictionary::possible_words_iterator &other) const {
-
+    return !((*this)==other);
 }
 
 Dictionary::possible_words_iterator &Dictionary::possible_words_iterator::operator++() {
+    if(available_letters.size() > 0 && !current_node.left_child().is_null()) { // Si quedan letras en la bolsa y tiene hijos
+        current_node = current_node.left_child(); // Vamos al hijo
+        comprueba_si_esta_en_la_bolsa();
+    }
+    else {
+        comprueba_si_tiene_hermanos(true);
+    }
 
+    return *this;
+}
+
+void Dictionary::possible_words_iterator::comprueba_si_esta_en_la_bolsa() {
+    if(available_letters.find((*current_node).character) != available_letters.end()) { // Si esta en la bolsa
+        current_word += (*current_node).character;
+        available_letters.erase(available_letters.find((*current_node).character));
+        if((*current_node).valid_word) {// Si es palabra valida
+            return;
+        }
+        else {
+            ++(*this);
+        }
+    }
+    else {
+        comprueba_si_tiene_hermanos(false);
+    }
+}
+
+void Dictionary::possible_words_iterator::comprueba_si_tiene_hermanos(bool sacar_letra) {
+    if (sacar_letra) {
+        available_letters.insert(current_word.back()); // Devuelve la ultima letra a la bolsa
+        current_word.pop_back(); // La elimina de la palabra
+    }
+
+    if(!current_node.right_sibling().is_null()) { // Si tiene hermano
+        current_node = current_node.right_sibling(); // Se mueve al hermano
+        comprueba_si_esta_en_la_bolsa();
+    }
+    else if(!current_node.parent().is_null()) { // Si tiene padre
+        current_node = current_node.parent();
+        comprueba_si_tiene_hermanos(true);
+    }
+    else { // Si no tiene ni padre ni hermanos
+        // Lo igualamos al final de dicho iterador en diccionario
+        available_letters = multiset<char>();
+        current_node = node();
+        current_word = "";
+    }
 }
 
 std::string Dictionary::possible_words_iterator::operator*() const {
-
+    return current_word;
 }

@@ -13,17 +13,17 @@
 
 using namespace std;
 
-class Solver {
+class solver {
 private:
     Dictionary dictionary;
     LettersSet letters;
 public:
     /**
-     * @brief Crea un Solver dado un diccionario y un conjunto de letras
+     * @brief Crea un solver dado un diccionario y un conjunto de letras
      * @param dict El diccionario que se va a usar
      * @param letters_set Las letras de la partida
      */
-    Solver(const Dictionary & dict, const LettersSet & letters_set);
+    solver(const Dictionary & dict, const LettersSet & letters_set);
 
     /**
      * @brief Obtiene las mejores soluciones dado unas letras y el modo de juego
@@ -52,13 +52,13 @@ public:
 
     /**
      * @brief Ordena las palabras por su puntuacion
-     * @param solutions
+     * @param solutions Vector de string que contiene las palabras
      */
     void compareByPoints(vector<string> &solutions);
 
     /**
      * @brief Ordena las longitudes de palabras de menor a mayor
-     * @param solutions
+     * @param solutions Vector de string que contiene las palabras
      */
     void compareByLength(vector<string> &solutions);
 

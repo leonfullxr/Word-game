@@ -2,14 +2,14 @@
 // Created by leon on 1/01/23.
 //
 
-#include "Solver.h"
+#include "solver.h"
 
-Solver::Solver(const Dictionary &dict, const LettersSet &letters_set) {
+solver::solver(const Dictionary &dict, const LettersSet &letters_set) {
     this->dictionary = dict;
     this->letters = letters_set;
 }
 
-pair<vector<std::string>, int> Solver::getSolutions(const vector<char> &available_letters, bool score_game) {
+pair<vector<std::string>, int> solver::getSolutions(const vector<char> &available_letters, bool score_game) {
     pair<vector<string>,int> soluciones;
     vector<string> palabras;
     soluciones.second = 0; // Initialize score to 0
@@ -39,13 +39,13 @@ pair<vector<std::string>, int> Solver::getSolutions(const vector<char> &availabl
     return solucion_final;
 }
 
-void Solver::getWords(vector<string>& words) {
+void solver::getWords(vector<string>& words) {
     for (Dictionary::iterator it = this->dictionary.begin(); it != this->dictionary.end(); ++it){
         words.push_back(it.operator*());
     }
 }
 
-vector<string> Solver::getPossibleWords(const vector<char> &available_letters, const vector<string> &words) {
+vector<string> solver::getPossibleWords(const vector<char> &available_letters, const vector<string> &words) {
     std::vector<std::string> solutions;
 
     // For each word in the vector of words
@@ -70,7 +70,7 @@ vector<string> Solver::getPossibleWords(const vector<char> &available_letters, c
     return solutions;
 }
 
-void Solver::compareByPoints(vector<string> &solutions) {
+void solver::compareByPoints(vector<string> &solutions) {
     for (int i = 0; i < solutions.size() - 1; i++) {
         int min_idx = i;
         for (int j = i + 1; j < solutions.size(); j++) {
@@ -82,7 +82,7 @@ void Solver::compareByPoints(vector<string> &solutions) {
     }
 }
 
-void Solver::compareByLength(vector<string> &solutions) {
+void solver::compareByLength(vector<string> &solutions) {
     for (size_t i = 0; i < solutions.size() - 1; i++) {
         // Find the minimum element in the unsorted part of the vector
         size_t min_idx = i;

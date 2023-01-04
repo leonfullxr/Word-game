@@ -267,10 +267,13 @@ public:
 
     private:
         multiset<char> available_letters;
-        int level;
+        // int level; // No es necesario, se tiene con la longitud de la palabra actual
         node current_node;
         string current_word;
 
+        // Funciones auxiliares oara el operador++
+        void comprueba_si_esta_en_la_bolsa();
+        void comprueba_si_tiene_hermanos(bool sacar_letra);
     };
 
     possible_words_iterator possible_words_begin(vector<char> available_characters) const;
