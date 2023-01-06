@@ -34,19 +34,10 @@ public:
     pair <vector<std::string>,int> getSolutions(const vector<char> & available_letters, bool score_game);
 
     /**
-     * @brief Auxiliar function to get all the words formed by a tree
-     * @param curr_node Current node of the tree
-     * @param word String that stores the current word formed by the tree
-     * @param words Vector that will store all the words formed by the tree
-     */
-    void getWords(vector<string>& words);
-
-    /**
-     * @brief Get all the solutions that can be formed using the available letters
-     *
-     * @param available_letters Vector of available letters
-     * @param words Vector of words to be checked
-     * @return Vector of strings containing the solutions that can be formed
+     * @brief Devuelve todas las palabras que se pueden formar dado unas letras disponibles y un vector de palabras
+     * @param available_letters Vector de letras disponibles
+     * @param words Vector de las letras a comprobar
+     * @return Vector de strings que contiene las palabras formadas
      */
     vector<string> getPossibleWords(const vector<char> &available_letters, const vector<string> &words);
 
@@ -61,9 +52,6 @@ public:
      * @param solutions Vector de string que contiene las palabras
      */
     void compareByPoints(std::vector<std::string>& solutions);
-
-
 };
-
 
 #endif //P04_JUEGO_LETRAS_SOLVER_H

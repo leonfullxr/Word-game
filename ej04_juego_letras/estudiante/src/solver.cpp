@@ -14,8 +14,10 @@ pair<vector<std::string>, int> solver::getSolutions(const vector<char> &availabl
     pair<vector<string>,int> soluciones;
     vector<string> palabras;
 
-    //Devuelve todas las palabras del diccionario
-    getWords(palabras);
+    //Almacena todas las palabras del diccionario
+    for (Dictionary::iterator it = this->dictionary.begin(); it != this->dictionary.end(); ++it)
+        palabras.push_back(it.operator*());
+
     //Devuelve todas las palabras formadas
     soluciones.first = this->getPossibleWords(available_letters,palabras);
 
@@ -53,9 +55,8 @@ pair<vector<std::string>, int> solver::getSolutions(const vector<char> &availabl
 }
 
 void solver::getWords(vector<string>& words) {
-    for (Dictionary::iterator it = this->dictionary.begin(); it != this->dictionary.end(); ++it){
-        words.push_back(it.operator*());
-    }
+
+
 }
 
 vector<string> solver::getPossibleWords(const vector<char> &available_letters, const vector<string> &words) {
