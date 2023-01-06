@@ -8,7 +8,6 @@
 #include <set>
 #include "dictionary.h"
 #include <cctype>
-#include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
 //                             Private functions                             //
