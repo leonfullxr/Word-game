@@ -205,7 +205,7 @@ public:
     //////////////////////////////////////////////// Recursive functions ///////////////////////////////////////////////
 
     /**
-     * @brief Cuenta el numero de veces que aparece el caracter c en el diccionario
+     * @brief Cuenta el numero de veces que aparece el caracter c en arbol que forma el diccionario
      * @param c el caracter a contar las ocurrencias
      * @return El numero de ocurrencias del caracter c
      */

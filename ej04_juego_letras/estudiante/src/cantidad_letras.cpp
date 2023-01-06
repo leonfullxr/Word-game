@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     archivo_palabras.open(fichero_palabras);
     if (!archivo_palabras.is_open())
     {
-        cout << "Error al abrir " << fichero_palabras;
+        cerr << "Error al abrir " << fichero_palabras << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
     archivo_letras.open(fichero_letras);
     if(!archivo_letras.is_open()){
-        cout << "Error al abrir " << fichero_letras;
+        cerr << "Error al abrir " << fichero_letras << endl;
         exit(EXIT_FAILURE);
     }
     archivo_letras >> conjunto_letras;

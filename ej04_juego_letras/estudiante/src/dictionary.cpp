@@ -44,8 +44,8 @@ Dictionary::node Dictionary::insertCharacter(char character, Dictionary::node cu
 int Dictionary::getOccurrences(node curr_node, char c){
     if(curr_node.is_null()) return 0;
     int contador = curr_node.operator*().character == c ? 1 : 0;
-    contador += this->getOccurrences(curr_node.left_child(),c); //Nodo de la izquierda
-    contador += this->getOccurrences(curr_node.right_sibling(),c); //Nodo de la derecha
+    contador += this->getOccurrences(curr_node.left_child(),c); //Hijo izquierdo
+    contador += this->getOccurrences(curr_node.right_sibling(),c); //Hermano a la derecha
     return contador;
 }
 
@@ -56,8 +56,13 @@ std::pair<int, int> Dictionary::getTotalUsages(node curr_node, char c){
     std::pair<int,int> right_child = this->getTotalUsages(curr_node.right_sibling(),c);
     par.first += left_child.first + right_child.first;
     par.second += left_child.second + right_child.second;
-    if(curr_node.operator*().character == c) par.first += left_child.second + 1;
-    if(curr_node.operator*().valid_word) par.second++;
+    if(curr_node.operator*().character == c) par.first += left_child.second;
+    if(curr_node.operator*().valid_word)  {
+        par.second++;
+        if(curr_node.operator*().character == c) {
+            par.first++;
+        }
+    }
     return par;
 }
 
@@ -135,12 +140,12 @@ Dictionary &Dictionary::operator=(const Dictionary &dic){
 //                               I/O overload                                //
 ///////////////////////////////////////////////////////////////////////////////
 
-/*std::ostream& operator<<(std::ostream &os, const Dictionary &dict){
+std::ostream& operator<<(std::ostream &os, const Dictionary &dict){
   for(Dictionary::iterator it = dict.begin();it != dict.end(); ++it){
     os << *it << std::endl;
   }
   return os;
-}*/
+}
 
 std::istream& operator>>(std::istream &is, Dictionary &dict){
   std::string curr_word;

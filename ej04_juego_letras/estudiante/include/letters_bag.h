@@ -12,7 +12,6 @@
  * @brief TDA LettersBag
  *
  * @details Este TDA almacena un conjunto de letras.
- * La estructura de datos subyacente es una lista de chars.
  */
 
 class LettersBag{

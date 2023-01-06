@@ -53,6 +53,11 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/${BASE_FOLDER}/src/partida_letras_profesor.cpp)
             ${BASE_FOLDER}/src/dictionary.cpp)
 endif()
 
+if (EXISTS ${CMAKE_SOURCE_DIR}/${BASE_FOLDER}/src/anlisis_eficiencia.cpp)
+    add_executable(anlisis_eficiencia
+            ${BASE_FOLDER}/src/solver.cpp)
+endif()
+
 # check if Doxygen is installed
 find_package(Doxygen)
 if (DOXYGEN_FOUND)
