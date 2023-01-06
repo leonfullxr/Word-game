@@ -8,7 +8,7 @@
 #include <vector>
 #include "dictionary.h"
 #include "letters_set.h"
-#include <unordered_set>
+#include <unordered_map>
 #include <algorithm>
 
 using namespace std;
@@ -51,16 +51,17 @@ public:
     vector<string> getPossibleWords(const vector<char> &available_letters, const vector<string> &words);
 
     /**
+     * @brief Ordena las longitudes de palabras de menor a mayor
+     * @param arr Vector de string que contiene las palabras
+     */
+    void compareByLength(std::vector<std::string> &arr);
+
+    /**
      * @brief Ordena las palabras por su puntuacion
      * @param solutions Vector de string que contiene las palabras
      */
-    void compareByPoints(vector<string> &solutions);
+    void compareByPoints(std::vector<std::string>& solutions);
 
-    /**
-     * @brief Ordena las longitudes de palabras de menor a mayor
-     * @param solutions Vector de string que contiene las palabras
-     */
-    void compareByLength(vector<string> &solutions);
 
 };
 

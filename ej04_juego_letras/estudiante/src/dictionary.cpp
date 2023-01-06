@@ -8,7 +8,6 @@
 #include <set>
 #include "dictionary.h"
 #include <cctype>
-#include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
 //                             Private functions                             //
@@ -136,12 +135,12 @@ Dictionary &Dictionary::operator=(const Dictionary &dic){
 //                               I/O overload                                //
 ///////////////////////////////////////////////////////////////////////////////
 
-/*std::ostream& operator<<(std::ostream &os, const Dictionary &dict){
+std::ostream& operator<<(std::ostream &os, const Dictionary &dict){
   for(Dictionary::iterator it = dict.begin();it != dict.end(); ++it){
     os << *it << std::endl;
   }
   return os;
-}*/
+}
 
 std::istream& operator>>(std::istream &is, Dictionary &dict){
   std::string curr_word;
