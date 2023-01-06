@@ -54,11 +54,6 @@ pair<vector<std::string>, int> solver::getSolutions(const vector<char> &availabl
     return solucion_final;
 }
 
-void solver::getWords(vector<string>& words) {
-
-
-}
-
 vector<string> solver::getPossibleWords(const vector<char> &available_letters, const vector<string> &words) {
     std::vector<std::string> solutions;
 
