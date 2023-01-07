@@ -1,9 +1,18 @@
-/**
- * @file solver_eficiente.cpp
- * @brief Archivo que implementa los metodos de la clase solver_eficiente.h
- */
+//
+// Created by leon on 1/01/23.
+//
 
 #include "solver_eficiente.h"
+#include <cctype>
+
+int solver_eficiente::getSocre(const string & word, bool score_game) {
+    if(score_game) {
+        return letters.getScore(word);
+    }
+    else {
+        return word.length();
+    }
+}
 
 solver_eficiente::solver_eficiente(const Dictionary &dict, const LettersSet &letters_set) {
     this->dictionary = dict;
@@ -11,88 +20,26 @@ solver_eficiente::solver_eficiente(const Dictionary &dict, const LettersSet &let
 }
 
 pair<vector<std::string>, int> solver_eficiente::getSolutions(const vector<char> &available_letters, bool score_game) {
-    pair<vector<string>,int> soluciones;
+    pair<vector<string>, int> solutions;
+    vector<string> &palabras_sol = solutions.first;
+    int & max_score = solutions.second = 0;
 
-    for(Dictionary::possible_words_iterator it = this->dictionary.possible_words_begin(available_letters); it != this->dictionary.possible_words_end(); it.operator++())
-        soluciones.first.push_back(*it); //vamos insertando las palabras
+    multiset<char> letras_disponibles;
+    for(char c : available_letters) { // Copiamos el contenido del vactor de available_letters en un multiset
+        letras_disponibles.insert(tolower(c));
+    }
 
-    //Ordenamos las palabras en funcion de longitud o puntuacion
-    int maxima_puntuacion;
-    pair<vector<string>,int> soluciones_final;    //Son las soluciones con respecto al score_game
-    if (score_game) {
-        this->compareByPoints(soluciones.first);
-        maxima_puntuacion = this->letters.getScore(soluciones.first.back());
-        soluciones_final.second = maxima_puntuacion;
+    for(Dictionary::iterator it = dictionary.begin(); it != dictionary.end(); ++it) { // Para cada palabra en el diccionario
+        int current_score = getSocre(*it, score_game); // Calculamos su puntuacion
 
-        for(auto letra : soluciones.first) {
-            if (maxima_puntuacion == this->letters.getScore(soluciones.first.back())) {
-                soluciones_final.first.push_back(soluciones.first.back());
-                soluciones.first.pop_back();
-            }
+        if( current_score > max_score) { // Si supera el maximo es la nueva unica palabra en el vector de soluciones
+            palabras_sol = vector<string>(1, *it);
+            max_score = current_score;
         }
-    }else {
-        this->compareByLength(soluciones.first);
-        maxima_puntuacion = soluciones.first.back().length();
-        soluciones_final.second = maxima_puntuacion;
-
-        for(auto letra : soluciones.first){
-            if(maxima_puntuacion == soluciones.first.back().length()) {
-                soluciones_final.first.push_back(soluciones.first.back());
-                soluciones.first.pop_back();
-            }
+        else if(current_score == max_score) { // Si es igual al maximo la añadimos al vector de soluciones
+            palabras_sol.push_back(*it);
         }
     }
 
-    return soluciones_final;
-}
-
-void solver_eficiente::compareByLength(std::vector<std::string> &arr) {
-    sort(arr.begin(), arr.end(), [](const std::string &a, const std::string &b) {
-        return a.length() < b.length();
-    });
-}
-
-
-void solver_eficiente::compareByPoints(std::vector<std::string>& strings)
-{
-    // Find the maximum points value among all strings
-    int maxPoints = 0;
-    for (const std::string& s : strings)
-    {
-        maxPoints = std::max(maxPoints, this->letters.getScore(s));
-    }
-
-    // Perform radix sort
-    int exp = 1;
-    while (maxPoints / exp > 0)
-    {
-        std::vector<int> counts(10, 0);
-        std::vector<std::string> output(strings.size());
-
-        // Count the number of strings with a given digit in the current position
-        for (const std::string& s : strings)
-        {
-            counts[(this->letters.getScore(s) / exp) % 10]++;
-        }
-
-        // Compute the starting index for each digit
-        for (int i = 1; i < counts.size(); i++)
-        {
-            counts[i] += counts[i - 1];
-        }
-
-        // Place the strings in the output array
-        for (int i = strings.size() - 1; i >= 0; i--)
-        {
-            int digit = (this->letters.getScore(strings[i]) / exp) % 10;
-            output[counts[digit] - 1] = strings[i];
-            counts[digit]--;
-        }
-
-        // Copy the sorted strings back to the input array
-        strings = output;
-
-        // Move to the next digit position
-        exp *= 10;
-    }
+    return solutions;
 }

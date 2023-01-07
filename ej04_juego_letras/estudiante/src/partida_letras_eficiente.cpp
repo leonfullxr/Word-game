@@ -1,77 +1,81 @@
-/**
- * @file partida_letras_eficiente.cpp
- * @brief Archivo que implementa unas pruebas para solver_eficiente
- * @details Se le han de pasar 4 argumentos, el primero, una ruta hasta un archivo desde el que cargar el Diccionario,
- * el segundo otra ruta hasta un archivo desde el que cargar el LetterSet, el tercero una letra 'L' que indica que el
- * juego se hara por longitud de palabra o 'P' que indica que se hara por puntuacion y el ultimo argumento un numero
- * entero para indicar cuatas letras se van a usar. Imprime por pantalla por cada letra, el numero de ocurrencias de
- * la letra en el diccionario y su frecuenia relativa
- *
- * <strong>Ejemplo ejecución:</strong>\n
- * Orden: partida_letras_eficiente ./data/diccionario.txt ./data/letras.txt L 9 \n
- *
- */
-
 #include <iostream>
+#include <fstream>
+#include <cctype>
 #include "dictionary.h"
 #include "letters_set.h"
-#include <fstream>
 #include "letters_bag.h"
 #include "solver_eficiente.h"
 
-int main(int argc, char *argv[]){
-    if(argc!=5){
-        cout << "Error, se deben introducir 4 argumentos --> <fichero_palabras> <fichero_letras> <modo_juego> <cantidad_letras> " << endl;
+
+using namespace std;
+
+int main(int argc, char*argv[]) {
+    if(argc != 5) {
+        cerr << "ERROR: Parametros necesarios: <ruta_a_diccionario> <ruta_a_letras> "
+             << "<modo_de_juego(L=longitud,P=puntuacion)> <cantidad_letras>" << endl;
+        return -1;
     }
 
-    string fichero_palabras = argv[1];       //fichero con las palabras del diccionario
-    string fichero_letras = argv[2];   //longitud de palabras
-    bool modo_de_juego = argv[3] == "P" ? true : false;       //Longitud false, Puntuacion true
-    int cantidad_letras = stoi(argv[4]);
-    Dictionary diccionario;         //Declaramos el diccionario
-    LettersSet conjunto_letras;      //Declaramos el LetterSet
+    // Inicializamos el arch_diccionario
+    ifstream arch_diccionario;
+    arch_diccionario.open(argv[1]);
+    if(!arch_diccionario.is_open()) {
+        cerr << "Error al abrir el archivo " << argv[1] << endl;
+        return -1;
+    }
+    Dictionary diccionario;
+    arch_diccionario >> diccionario;
+    arch_diccionario.close();
 
-    ifstream archivo_palabras;
-    ifstream archivo_letras;
-    string palabra;
+    // Inicilaizamos el letras
+    ifstream arch_letras;
+    arch_letras.open(argv[2]);
+    if(!arch_letras.is_open()) {
+        cerr << "Error al abrir el archivo " << argv[2] << endl;
+        return -1;
+    }
+    LettersSet letras;
+    arch_letras >> letras;
+    arch_letras.close();
 
-    archivo_palabras.open(fichero_palabras);
-    if (!archivo_palabras.is_open())
-    {
-        cout << "Error al abrir " << fichero_palabras;
-        exit(EXIT_FAILURE);
+    // Establecemos modod de juego
+    bool scoregame;
+    if(toupper(argv[3][0]) == 'L') {
+        scoregame = false;
+    }
+    else if(toupper(argv[3][0]) == 'P') {
+        scoregame = true;
+    }
+    else {
+        cerr << "ERROR: Modo de juego ha de ser L o P" << endl;
     }
 
-    while(archivo_palabras >> palabra){
-        diccionario.insert(palabra);
+    // Establecemos el numero de letras
+    int num_letras = stoi(argv[4]);
+
+    // Creamos la bolsa de letras
+    LettersBag bolsa(letras);
+
+    // Extraemos las que se usarán para la partida
+    vector<char> disponibles;
+    for(int i=0; i< num_letras; i++) {
+        disponibles.push_back(bolsa.extractLetter());
     }
-    archivo_palabras.close();
 
-    archivo_letras.open(fichero_letras);
-    if(!archivo_letras.is_open()){
-        cout << "Error al abrir " << fichero_letras;
-        exit(EXIT_FAILURE);
-    }
-    archivo_letras >> conjunto_letras;
-    archivo_letras.close();
+    // Le pedimos al sover las soluciones
+    solver_eficiente solver(diccionario, letras);
+    pair<vector<string>, int> soluciones = solver.getSolutions(disponibles, scoregame);
 
-    LettersBag bolsa_letras(conjunto_letras);
-    vector<char> available_letters;
-
-    for(int i = 0; i < cantidad_letras; i++)
-        available_letters.push_back(bolsa_letras.extractLetter());
-
-    solver_eficiente programa(diccionario,conjunto_letras);
-
-    pair<vector<string>,int> soluciones = programa.getSolutions(available_letters,modo_de_juego);
-
+    // Las imprimimos
     cout << "LETRAS DISPONIBLES:" << endl;
-    for(auto letra : available_letters)
-        cout << letra << " ";
+    for(char & c : disponibles) {
+        cout << c << " ";
+    }
     cout << endl;
     cout << "SOLUCIONES:" << endl;
-    for(auto palabra : soluciones.first)
-        cout << palabra << endl;
+    for(string & sol : soluciones.first) {
+        cout << sol << endl;
+    }
     cout << "PUNTUACION:" << endl;
-    cout << soluciones.second;
+    cout << soluciones.second << endl;
 }

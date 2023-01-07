@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 Dictionary::node Dictionary::findLowerBoundChildNode(char character, Dictionary::node current) {
+  character = tolower(character);
   node prev_child, curr_child = current.left_child();
 
   for (; !curr_child.is_null() && (*curr_child).character <= character; curr_child = curr_child.right_sibling()){
@@ -29,6 +30,7 @@ Dictionary::node Dictionary::findLowerBoundChildNode(char character, Dictionary:
 }
 
 Dictionary::node Dictionary::insertCharacter(char character, Dictionary::node current) {
+  character = tolower(character);
   node insertion_position = findLowerBoundChildNode(character, current);
   if (insertion_position == current){
     this->words.insert_left_child(current, char_info(character));
@@ -42,6 +44,7 @@ Dictionary::node Dictionary::insertCharacter(char character, Dictionary::node cu
 }
 
 int Dictionary::getOccurrences(node curr_node, char c){
+    c = tolower(c);
     if(curr_node.is_null()) return 0;
     int contador = curr_node.operator*().character == c ? 1 : 0;
     contador += this->getOccurrences(curr_node.left_child(),c); //Hijo izquierdo
@@ -50,6 +53,7 @@ int Dictionary::getOccurrences(node curr_node, char c){
 }
 
 std::pair<int, int> Dictionary::getTotalUsages(node curr_node, char c){
+    c = tolower(c);
     std::pair<int,int> par = {0,0};
     if(curr_node.is_null()) return par;
     std::pair<int,int> left_child = this->getTotalUsages(curr_node.left_child(),c);
@@ -87,8 +91,8 @@ Dictionary::~Dictionary() {
 bool Dictionary::exists(const std::string & word) {
   node current = this->words.get_root();
   for (int i = 0; i < word.size(); ++i){
-    current = this->findLowerBoundChildNode(word[i], current);
-    if ((*current).character != word[i]) {
+    current = this->findLowerBoundChildNode(tolower(word[i]), current);
+    if ((*current).character != tolower(word[i])) {
       return false;
     }
   }
@@ -99,7 +103,7 @@ bool Dictionary::exists(const std::string & word) {
 bool Dictionary::insert(const std::string &word) {
   node current = this->words.get_root();
   for (int i = 0; i < word.size(); ++i){
-    current = this->insertCharacter(word[i], current);
+    current = this->insertCharacter(tolower(word[i]), current);
   }
 
   if (!(*current).valid_word) {
@@ -114,8 +118,8 @@ bool Dictionary::insert(const std::string &word) {
 bool Dictionary::erase(const std::string & val){
   node current = this->words.get_root();
   for (int i = 0; i < val.size(); ++i){
-    current = this->findLowerBoundChildNode(val[i], current);
-    if ((*current).character != val[i]) {
+    current = this->findLowerBoundChildNode(tolower(val[i]), current);
+    if ((*current).character != tolower(val[i])) {
       return false;
     }
   }
@@ -259,7 +263,7 @@ Dictionary::possible_words_iterator::possible_words_iterator() {
 Dictionary::possible_words_iterator::possible_words_iterator(node current_node, vector<char> available_letters){
     node aux = this->current_node = current_node;
     for(const char & letter : available_letters) {
-        this->available_letters.insert(letter);
+        this->available_letters.insert(tolower(letter));
     }
     while(!(aux.parent().is_null())) { // Mientras no estemos en la raiz
         current_word += (*aux).character;

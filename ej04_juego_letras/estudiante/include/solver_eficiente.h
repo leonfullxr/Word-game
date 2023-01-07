@@ -16,6 +16,10 @@ class solver_eficiente {
 private:
     Dictionary dictionary;
     LettersSet letters;
+
+    int getSocre(const string & word, bool score_game);
+
+    bool isValid(const string & word, multiset<char> available_letters);
 public:
     /**
      * @brief Crea un solver dado un diccionario y un conjunto de letras
@@ -31,18 +35,6 @@ public:
      * @return Un pair que contiene las mejores palabras (puede haber empate) junto con la puntuacion correspondiente
      */
     pair <vector<std::string>,int> getSolutions(const vector<char> & available_letters, bool score_game);
-
-    /**
-     * @brief Ordena las longitudes de palabras de menor a mayor
-     * @param arr Vector de string que contiene las palabras
-     */
-    void compareByLength(std::vector<std::string> &arr);
-
-    /**
-     * @brief Ordena las palabras por su puntuacion
-     * @param solutions Vector de string que contiene las palabras
-     */
-    void compareByPoints(std::vector<std::string>& solutions);
 };
 
 #endif //P04_JUEGO_LETRAS_SOLVER_EFICIENTE_H
