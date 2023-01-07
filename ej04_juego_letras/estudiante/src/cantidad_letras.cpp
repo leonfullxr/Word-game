@@ -8,7 +8,7 @@
  * <strong>Ejemplo ejecución:</strong>\n
  * Orden: cantidad_letras ./data/diccionario_pub.txt \n
  * Output:\n
- * Letra	FAbs.	Frel.\n
+ * Letra	FAbs.	Frel.\n todo - esto esta mal
  *  A	2	0.0210526\n
  *  E	14	0.147368\n
  *  I	6	0.0631579\n

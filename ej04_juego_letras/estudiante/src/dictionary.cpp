@@ -266,7 +266,7 @@ Dictionary::possible_words_iterator::possible_words_iterator(node current_node, 
         this->available_letters.insert(tolower(letter));
     }
     while(!(aux.parent().is_null())) { // Mientras no estemos en la raiz
-        current_word += (*aux).character;
+        current_word = (*aux).character + current_word;
         aux = aux.parent();
     }
 }

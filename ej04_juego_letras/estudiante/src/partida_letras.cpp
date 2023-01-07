@@ -1,3 +1,8 @@
+/**
+ * @file partida_letras_eficiente.cpp
+ * todo Ver ejempos de otros ejecutables
+ */
+
 #include <iostream>
 #include <fstream>
 #include <cctype>

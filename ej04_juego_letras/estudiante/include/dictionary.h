@@ -1,6 +1,7 @@
-//
-// Created by fluque1995 on 8/9/21.
-//
+/**
+ * @file dictionary.h
+ * @brief Archivo donde se declara la clase Dictionary
+ */
 
 #ifndef TREE_DICTIONARY_HPP
 #define TREE_DICTIONARY_HPP
@@ -220,55 +221,150 @@ public:
 
     ///////////////////////////////////////////////////// Iterator ////////////////////////////////////////////////////
 
+    /**
+     * @class iterator Permite recorrer el diccionario palabra a palabra
+     */
     class iterator {
     private:
+        /**
+         * @brief La palabra a la que apunta en un momento dado
+         */
         std::string curr_word;
+        /**
+         * @brief Iteraor que usa para moverse en el arbol
+         */
         tree<char_info>::const_preorder_iterator iter;
 
     public:
-
+        /**
+         * @brief Crea un iterador vacio
+         */
         iterator();
 
+        /**
+         * @brief Crea un iterador que empieza en iter
+         * @details Si se encuentra en el nivel n se asume que las n letras anteriores son espacios en blanco
+         * @param iter La letra en la que emieza el iterador
+         */
         iterator(tree<char_info>::const_preorder_iterator iter);
 
+        /**
+         * @brief Devuelve a la palabra que apunta el iteraodor
+         * @return La palabra a la que apunta el iterador, una string vacia si no apunta a nada
+         */
         std::string operator*();
 
+        /**
+         * @brief Hace avanzar el iterador una palabra en el diccionario
+         * @return Una referencia al mismo iterador, para poder encadenar
+         */
         iterator &operator++();
 
+        /**
+         * @brief Compara el objeto con otro iteraodor
+         * @param other El otro iterador con el que se compara
+         * @return True si son iguales y false si no
+         */
         bool operator==(const iterator &other);
 
+        /**
+         * @brief Compara el objeto con otro iteraodor
+         * @param other El otro iterador con el que se compara
+         * @return True si son no iguales y false si lo son
+         */
         bool operator!=(const iterator &other);
 
     };
 
+    /**
+     * @brief Devuelve un iterador que apunta a la primera palabra del diccionario
+     * @return Un iterador que apunta a la primera palabra del diccionario, si no hay palabras en el diccionario, apunta
+     * al final
+     */
     iterator begin() const;
 
+    /**
+     * @brief Devuelve un iterador que apunta al final del diccionario
+     * @return Un iterador que apunta al final del diccionario
+     */
     iterator end() const;
 
     ///////////////////////////////////////////////// Letters Iterator /////////////////////////////////////////////////
 
+    /**
+     * @class iterator Permite recorrer el diccionario pasando solo por las palabras validas de manera eficiente
+     */
     class possible_words_iterator {
     public:
+        /**
+         * @brief Crea un iterador vacío
+         */
         possible_words_iterator();
 
+        /**
+         * @brief Crea un iterador que empieze en el nodo dado y que recorrerá las que se puedan formar a partir de las
+         * letras dadas
+         * @details Si current node no es la raíz, los nodos pabre se añadirán a la palabra actual y por tanto contarán
+         * como letras disponibles si dejan de estar en esta.
+         * @param current_node EL nodo en el que se emezará a recorrer el diccionario
+         * @param available_letters
+         */
         possible_words_iterator(node current_node, vector<char> available_letters);
 
+        /**
+         * @brief Crea una copia de estado profunda
+         * @param other El iterador que se va a copiar
+         */
         possible_words_iterator(const possible_words_iterator &other);
 
+        /**
+         * @brief Crea una copia de estado profunda
+         * @param other El iterador que se va a copiar
+         * @return Una referencia al mismo iterador, para poder encadenar
+         */
         possible_words_iterator &operator=(const possible_words_iterator &other);
 
+        /**
+         * @brief Compara el objeto con otro iteraodor
+         * @detials Hand e ser iguales tanto en la posicion en la que se encuentran en el diccionario, como en sus
+         * letras disponibles
+         * @param other El otro iterador con el que se compara
+         * @return True si son iguales, false si no
+         */
         bool operator==(const possible_words_iterator &other) const;
 
+        /**
+         * @brief Compara el objeto con otro iteraodor
+         * @param other El otro iterador con el que se compara
+         * @return True si son no iguales y false si lo son
+         */
         bool operator!=(const possible_words_iterator &other) const;
 
+        /**
+         * @brief Hace avanzar el diccionario a la siguente palabra válida
+         * @return Una referencia al mismo iterador, para poder encadenar
+         */
         possible_words_iterator &operator++();
 
+        /**
+         * @brief Devuelve a la palabra que apunta el iteraodor
+         * @return La palabra a la que apunta el iterador, una string vacia si no apunta a nada
+         */
         std::string operator*() const;
 
     private:
+        /**
+         * @brief Las letras con las que se juega, las que hay disponibles
+         */
         multiset<char> available_letters;
         // int level; // No es necesario, se tiene con la longitud de la palabra actual
+        /**
+         * @brief El nodo actual
+         */
         node current_node;
+        /**
+         * @brief La palabra actual
+         */
         string current_word;
 
         // Funciones auxiliares oara el operador++
@@ -276,8 +372,18 @@ public:
         void comprueba_si_tiene_hermanos(bool sacar_letra);
     };
 
+    /**
+     * @brief Devuelve un iterador de palabras validas apuntando a la primera palabra del diccionario que se puede
+     * formar con las letras dadas
+     * @param available_characters Las letras que usará el iterador para determinar si una palabra es o no válida
+     * @return Un iterador de palabras validas apuntando a la primera palabra del diccionario que se puede
+     */
     possible_words_iterator possible_words_begin(vector<char> available_characters) const;
 
+    /**
+     * @brief Devuelve un iterador de palabras válidas que apunta al final del diccionario
+     * @return Un iterador de pababras váidas que apunta al final del diccionario
+     */
     possible_words_iterator possible_words_end() const;
 };
 

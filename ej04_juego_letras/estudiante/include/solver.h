@@ -1,6 +1,7 @@
-//
-// Created by leon on 1/01/23.
-//
+/**
+ * @file solver.h
+ * @brief Archivo donde se declara la clase Solver y EfficientSolver
+ */
 
 #ifndef P04_JUEGO_LETRAS_SOLVER_H
 #define P04_JUEGO_LETRAS_SOLVER_H
@@ -13,6 +14,9 @@
 
 using namespace std;
 
+/**
+ * @class todo
+ */
 class Solver {
 private:
     Dictionary dictionary;
@@ -40,7 +44,9 @@ public:
 };
 
 
-
+/**
+ * @class todo
+ */
 class EfficientSolver {
 private:
     Dictionary dictionary;
