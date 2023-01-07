@@ -4,7 +4,7 @@
 #include "dictionary.h"
 #include "letters_set.h"
 #include "letters_bag.h"
-#include "solver_eficiente.h"
+#include "solver.h"
 
 
 using namespace std;
@@ -63,7 +63,7 @@ int main(int argc, char*argv[]) {
     }
 
     // Le pedimos al sover las soluciones
-    solver_eficiente solver(diccionario, letras);
+    EfficientSolver solver(diccionario, letras);
     pair<vector<string>, int> soluciones = solver.getSolutions(disponibles, scoregame);
 
     // Las imprimimos
