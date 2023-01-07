@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     archivo_letras >> conjunto_letras;
     archivo_letras.close();
 
-    cout << "Letra\tUsos.\tOcurrencias." << endl;
+    cout << "Letra\tUsos\tOcurrencias" << endl;
     for(LettersSet::iterator it=conjunto_letras.begin(); it!=conjunto_letras.end(); it.operator++()){
         cout <<  it.operator*().first << "\t" << diccionario.getTotalUsages(it.operator*().first) << "\t" << diccionario.getOccurrences(it.operator*().first) << endl;
     }
