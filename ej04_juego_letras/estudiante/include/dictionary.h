@@ -15,6 +15,10 @@
 
 using namespace std;
 
+/**
+ * @brief TDA Dictionary, contenedor de palabras en minúscula
+ * @details Las palabras almacenadas en la clase, si tienen algun caracter en mayscula se conviete a minuscula.
+ */
 class Dictionary {
 private:
     /**
