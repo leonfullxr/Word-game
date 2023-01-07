@@ -17,9 +17,10 @@ private:
     Dictionary dictionary;
     LettersSet letters;
 
-    int getSocre(const string & word, bool score_game);
+    int getScore(const string & word, bool score_game);
 
     bool isValid(const string & word, multiset<char> available_letters);
+
 public:
     /**
      * @brief Crea un solver dado un diccionario y un conjunto de letras

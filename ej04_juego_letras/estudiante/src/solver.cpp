@@ -5,7 +5,7 @@
 #include "solver.h"
 #include <cctype>
 
-int Solver::getSocre(const string & word, bool score_game) {
+int Solver::getScore(const string & word, bool score_game) {
     if(score_game) {
         return letters.getScore(word);
     }
@@ -46,7 +46,7 @@ pair<vector<std::string>, int> Solver::getSolutions(const vector<char> &availabl
     for(Dictionary::iterator it = dictionary.begin(); it != dictionary.end(); ++it) { // Para cada palabra en el diccionario
         if(!isValid(*it, letras_disponibles)) continue; // Si es menor al maximo acutal o no es valida no la consideramos
 
-        int current_score = getSocre(*it, score_game); // Calculamos su puntuacion
+        int current_score = getScore(*it, score_game); // Calculamos su puntuacion
 
         if( current_score > max_score) { // Si supera el maximo es la nueva unica palabra en el vector de soluciones
             palabras_sol = vector<string>(1, *it);
