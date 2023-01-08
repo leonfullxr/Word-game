@@ -1,11 +1,121 @@
-/*! \mainpage Título de la página principal
+/*! \mainpage Página Principal
+
+@image html Autores.png
 
 # Introducción
 
-A RELLENAR POR EL ESTUDIANTE
+En esta práctica hemos visto otra forma de gestionar internamente el TDA Dictionary. De entrada podría parecer que esto
+es una complicación innecesaría, sin embargo hemos visto como gracias a cambiar el set por un arbol, hemos conseguido
+reducir el espacio empleado y hemos podido desarrollar un iterador que nos permite recorrer las soluciones validas de
+manera mas eficiente.
+
 
 # Ejecutables
 
-A RELLENAR POR EL ESTUDIANTE
+La documentación de los ejecutables está en cada uno de ellos.
 
-*/
+
+# Análisis de eficicencia
+Se puede encontrar en el siguente enlace:
+\ref page_analisis
+
+
+
+
+@page page_analisis Estudio de eficiencia de los sovers
+
+@section obtencion_informacion ¿Cómo se ha obtenido la información?
+Hemos decidico medir el tiempo que tarda cada solver para todos los diccionarios proporcionados en la carpeta
+/data_eficiencia y para un rango de entre 2 y 56 letras, para normalizar los resultados para cada medida de tiempo hemos
+hecho 10 pruebas con grupos de letras distintos y hemos tomado su media.
+<span  style="color:white">\n\n\n\n</span>
+
+@section datos_y_conlcusiones Datos obtenidos y análisis
+@subsection Solver Solver
+Para primer solver hemos obtenido los siguentes datos:
+@image html SOLVER.png width=1000px
+<strong>Gráfica S.</strong> La primera fila indica el número de letras que se le han pasado al solver, la primera
+columna indica el numero de palabras del diccionario que estaba usando, la última fila indica la media de cada columna y
+viceversa.
+Todos los valores estan contenidos en [3.97, 564.19].
+<span  style="color:white">\n\n</span>
+
+Con los datos anteriores se han generado las siguentes gráficas:
+@image html solver_graph_by_letters.png width=700px
+<strong>Gráfica SL.</strong> Cada linea se corresponde con un número de letras que se le ha pasado, el eje x indica el
+número de palabras y el eje y indica el tiempo que ha tardado el solver (en ms).
+<span  style="color:white">\n\n\n\n</span>
+
+@image html solver_graph_by_words.png width=700px
+<strong>Gráfica SP.</strong> Esta es muy similar al anterior, solo que esta vez se intercambia el papel del número de
+palabras con el de número de letras.
+<span  style="color:white">\n\n\n\n</span>
+
+Vemos que tanto variando el número de palabras, como el de letras, el tiempo que tarda el solver escala linealmente.
+Esto tiene sentido, pues recorre todas las palabras y si añades el doble ha de recorrer el doble; tambien si añades el
+doble de letras, tardá hay mas o menos el doble de probabilidades de que una letra sea valida y por eso acaba tardando
+el doble. Vemos que en algunos casos llega a tardar hasta medio segundo, lo cual sería un poco lento si lo quisiesemos
+usar en la realidad, incluso para los casos en los que realmente se usaría (imagino partidas de entre 5 y 15 letras y
+el diccionario mas grande) empieza a ser un poco lento, pues tarda decimas de segundo.
+<span  style="color:white">\n\n\n\n</span>
+
+
+@subsection SolverEficiente Solver Eficiente
+Para el solver eficiente hemos obtenido los siguentes datos:
+@image html EFICIENTE.png width=1000px
+<strong>Gráfica E.</strong> La primera fila indica el número de letras que se le han pasado al solver, la primera
+columna indica el numero de palabras del diccionario que estaba usando, la última fila indica la media de cada columna y
+viceversa.
+Todos los valores estan contenidos en [0.01, 87.92].
+<span  style="color:white">\n\n</span>
+
+Con los datos anteriores se han generado las siguentes gráficas:
+@image html efficient_solver_graph_by_letters.png width=700px
+<strong>Gráfica EL.</strong> Cada linea se corresponde con un número de letras que se le ha pasado, el eje x indica el
+número de palabras y el eje y indica el tiempo que ha tardado el solver (en ms).
+<span  style="color:white">\n\n\n\n</span>
+
+@image html efficient_solver_graph_by_words.png width=700px
+<strong>Gráfica EP.</strong> Esta es muy similar al anterior, solo que esta vez se intercambia el papel del número de
+palabras con el de número de letras.
+<span  style="color:white">\n\n\n\n</span>
+
+Vemos que en el caso de aumentar el número de palabras, el tiempo sigue aumentando linealmente, esto es por la misma
+razón que antes. Lo que es más interesante (gráfica EP) es ver que el solver es deproporcionadamente más rápido cuando
+hay pocas letras, esto se debe a que cuando hay pocas letras este solver poda las ramas antes (no puede descenter tanto
+en el árbol, si hay sólo 2 letras como mucho se descendrá 2 niveles, pero si hay 10 puede llegar a descencer 10). Este
+si es mucha mejor opción que el anterior para usar en una aplicación real, pues los casos en los que seguramente se
+usaría apenas tarda unos milisegundos.
+<span  style="color:white">\n\n\n\n</span>
+
+@subsection Comparatica Comparativa
+Dividiendo el tiempo que tardá el primer solver entre el que tará el eficiente, obtenemos los siguientes ratios:
+@image html RATIO_SOLVER_EFICIENTE.png width=1000px
+<strong>Gráfica C.</strong> La primera fila indica el número de letras que se le han pasado al los solvers, la primera
+columna indica el numero de palabras del diccionario que estaban usando, la última fila indica la media de cada columna y
+viceversa.
+Todos los valores estan contenidos en [3.85, 2609.51].
+<span  style="color:white">\n\n</span>
+
+Con los datos anteriores se han generado las siguentes gráficas:
+@image html ratio_by_letters.png width=700px
+<strong>Gráfica CL.</strong> Cada linea se corresponde con un número de letras que se les han pasado, el eje x indica el
+número de palabras y el eje y el ratio de tiempo entre los solvers.
+<span  style="color:white">\n\n\n\n</span>
+
+@image html ratio_by_words.png width=700px
+<strong>Gráfica CP.</strong> Esta es muy similar al anterior, solo que esta vez se intercambia el papel del número de
+palabras con el de número de letras.
+<span  style="color:white">\n\n\n\n</span>
+
+Esta es la parte que realmente interesa sobre el análisis, saber si es mejor o no el solver eficiente y de serlo, como
+de mejor es. Es sorprendente lo mucho mejor que es en los casos qcon cocas letras (el primero tarda 2600 veces mas),  pero fijandonos en el intervalo en el que se mueven los valores de la gráfica C podemos ver que incluso en
+el peor de los casos estudiados, el solver efificente sigue siendo unas 4 veces más veloz que el primero. Vemos tambien
+que donde mas se nota la diferéncia es cuando los solvers trabajan con pocas letras (gráfica CP). Aún así, el ratio
+medio es de 135, lo cual es una mejora en eficiencia muy considerable.
+<span  style="color:white">\n\n\n\n</span>
+
+@section Conclusion Conclusión
+Vemos, para sorpresa de nadie, que en cualquier caso sería ideal utilizar el solver eficiente. Siendo esta una elección
+especialmente buena en el caso de que se utilizen pocas letras.
+**/

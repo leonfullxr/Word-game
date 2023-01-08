@@ -1,3 +1,16 @@
+/**
+ * @file analisis_eficiencia.cpp
+ * @brief Archivo donde se genera informacion sobre la eficiencia de los dos solvers
+ * @details No se le han de passar argumentos
+ *
+ * Para cada diccionario aportado en data_eficiencia le pide a cada solver que encuentre las soluciones dandole de 2
+ * hasta 56 letras y mide el tiempo que tardan (para cada número de letras se hacen varias pruebas con grupos de letras
+ * distintos y se toma la media).
+ *
+ * Tras la ejecución de este programa quedará dicha informacón en los archivos indicados por ARCH_RESULTADOS_SOLVER y
+ * ARCH_RESULTADOS_SOLVER_EFICIENTE.
+ */
+
 #include <chrono>
 #include <iostream>
 #include <fstream>
