@@ -1,6 +1,7 @@
-//
-// Created by fluque1995 on 8/9/21.
-//
+/**
+ * @file dictionary.cpp
+ * @brief Archivo donde se define la implementación de la clase Dictionary
+ */
 
 #include <string>
 #include <vector>

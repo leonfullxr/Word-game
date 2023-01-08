@@ -1,5 +1,5 @@
 /**
- * @file letters_set.cpp
+ * @file letters_bag.cpp
  * @brief Archivo donde se define la implementación de la clase LettersBag
  */
 

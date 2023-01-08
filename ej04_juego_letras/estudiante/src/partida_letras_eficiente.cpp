@@ -1,6 +1,26 @@
 /**
  * @file partida_letras_eficiente.cpp
- * todo Ver ejempos de otros ejecutables
+ * @brief Archivo donde se realiza la ejecucion del solver eficiente
+ * @details Se le deben pasar 4 argumentos, el primero siendo una ruta a un fichero donde
+ * cargar el diccionario, el segundo una ruta donde cargar el LetterSet, el tercero una letra
+ * 'L' o 'P' indicando si la partida se realizara a longitud o puntuacion de palabras y por
+ * ultimo el cuarto argumento siendo un entero que indique el numero de letras que se van a usar.
+ *
+ * El programa cargará el diccionario y el LetterSet, para luego hacer que el iterador eficiente
+ * recorra las palabras validas y se impriman por pantalla
+ *
+ * <strong>Ejemplo de ejecución:</strong>\n
+ * Orden: partida_letras_eficiente data/diccionario.txt data/letras.txt L 9\n
+ * Output:\n
+ * LETRAS DISPONIBLES:\n
+ * E O I E C I L X O \n
+ * SOLUCIONES:\n
+ * eolico\n
+ * exilio\n
+ * lexico\n
+ * oleico\n
+ * PUNTUACION:\n
+ * 6\n
  */
 
 #include <iostream>

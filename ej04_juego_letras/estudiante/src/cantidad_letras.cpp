@@ -1,19 +1,21 @@
 /**
  * @file cantidad_letras.cpp
  * @brief Archivo que implementa unas pruebas para Dictionary
- * @details Se le han de pasar 2 argumentos, el primero, una ruta hasta un archivo desde el que cargar el LettersSet y
- * el segundo otra ruta hasta un archivo desde el que cargar el Dictionary. Imprime por pantalla por cada letra, el
+ * @details Se le han de pasar 2 argumentos, el primero, una ruta hasta un archivo desde el que cargar el Dictionary y
+ * el segundo otra ruta hasta un archivo desde el que cargar el LetterSet. Imprime por pantalla por cada letra, el
  * numero de ocurrencias de la letra en el diccionario y su frecuenia relativa
  *
  * <strong>Ejemplo ejecución:</strong>\n
- * Orden: cantidad_letras ./data/diccionario_pub.txt \n
+ * Orden: cantidad_letras ./data/diccionario_mini.txt ./data/letras_mini.txt \n
  * Output:\n
- * Letra	FAbs.	Frel.\n todo - esto esta mal
- *  A	2	0.0210526\n
- *  E	14	0.147368\n
- *  I	6	0.0631579\n
- *  O	8	0.0842105\n
- *  U	8	0.0842105\n
+ * Letra\tUsos\tOcurrencias\n
+ * A\t8\t3\n
+ * C\t3\t1\n
+ * L\t2\t2\n
+ * M\t4\t1\n
+ * O\t4\t2\n
+ * R\t2\t2\n
+ * Z\t1\t1\n
  */
 
 #include <iostream>
