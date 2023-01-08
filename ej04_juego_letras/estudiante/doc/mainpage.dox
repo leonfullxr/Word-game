@@ -1,6 +1,6 @@
 /*! \mainpage Página Principal
 
-@image html Autores.png
+@image html Autores.png "Autores: Leon y Toni" width=800px
 
 # Introducción
 
@@ -8,16 +8,28 @@ En esta práctica hemos visto otra forma de gestionar internamente el TDA Dictio
 es una complicación innecesaría, sin embargo hemos visto como gracias a cambiar el set por un arbol, hemos conseguido
 reducir el espacio empleado y hemos podido desarrollar un iterador que nos permite recorrer las soluciones validas de
 manera mas eficiente.
+<span  style="color:white">\n\n\n\n</span>
 
 
 # Ejecutables
 
 La documentación de los ejecutables está en cada uno de ellos.
+<span  style="color:white">\n\n\n\n</span>
 
 
 # Análisis de eficicencia
 Se puede encontrar en el siguente enlace:
 \ref page_analisis
+<span  style="color:white">\n\n\n\n</span>
+
+
+# Otro
+Aunque no se pedia, añdaimos aquí un esquema que hicimos para poder desarrollar el operador ++ del solver eficiente,
+pues creemos que puede facilitar el entendimiento de este:
+@image html ++valid_word_iterator.png width=800px
+Hemos crado dos funciones auxiliares (comprueba_si_esta_en_la_bolsa() y comprueba_si_tiene_hermanos()) para facilitar la
+legibilidad y comprension del código.
+
 
 
 
@@ -83,8 +95,11 @@ palabras con el de número de letras.
 Vemos que en el caso de aumentar el número de palabras, el tiempo sigue aumentando linealmente, esto es por la misma
 razón que antes. Lo que es más interesante (gráfica EP) es ver que el solver es deproporcionadamente más rápido cuando
 hay pocas letras, esto se debe a que cuando hay pocas letras este solver poda las ramas antes (no puede descenter tanto
-en el árbol, si hay sólo 2 letras como mucho se descendrá 2 niveles, pero si hay 10 puede llegar a descencer 10). Este
-si es mucha mejor opción que el anterior para usar en una aplicación real, pues los casos en los que seguramente se
+en el árbol, si hay sólo 2 letras como mucho se descendrá 2 niveles, pero si hay 10 puede llegar a descencer 10).
+En el nivel 10 no hay solo 5 veces mas letras que en el nivel 2, hay algo menos de 26^8 letras mas (este dato es
+bastante matizable, pero si hubiese infinitas palabras sería cierto), por eso este solver es desproporcionadamente
+más lento con muchas letras, porque desciende mas niveles, el los cuales hay muhcas más letras. Este
+si sería mucha mejor opción que el anterior para usar en una aplicación real, pues los casos en los que seguramente se
 usaría apenas tarda unos milisegundos.
 <span  style="color:white">\n\n\n\n</span>
 
@@ -116,6 +131,6 @@ medio es de 135, lo cual es una mejora en eficiencia muy considerable.
 <span  style="color:white">\n\n\n\n</span>
 
 @section Conclusion Conclusión
-Vemos, para sorpresa de nadie, que en cualquier caso sería ideal utilizar el solver eficiente. Siendo esta una elección
-especialmente buena en el caso de que se utilizen pocas letras.
+Vemos, como era de esperar, que en cualquier caso, lo ideal sería utilizar el solver eficiente. Siendo esta una
+elección especialmente buena en el caso de que se utilizen pocas letras.
 **/

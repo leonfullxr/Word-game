@@ -371,8 +371,15 @@ public:
          */
         string current_word;
 
-        // Funciones auxiliares oara el operador++
+        /**
+         * @brief Función auxiliar para implementar el operador ++
+         */
         void comprueba_si_esta_en_la_bolsa();
+
+        /**
+         * @brief Función auxiliar para implementar el operador ++
+         * @param sacar_letra Si debe o no sacar la ultima letra de la palabra actual
+         */
         void comprueba_si_tiene_hermanos(bool sacar_letra);
     };
 
